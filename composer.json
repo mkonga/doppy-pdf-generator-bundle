@@ -1,0 +1,26 @@
+{
+    "name"       : "doppy/pdf-generator-bundle",
+    "type"       : "symfony-bundle",
+    "description": "Bundle for generating Pdf files from html.",
+    "keywords"   : [
+        "pdf",
+        "symfony"
+    ],
+    "license"    : "MIT",
+    "authors"    : [
+        {
+            "name" : "Daan van den Berg",
+            "email": "zawadi@doppy.nl"
+        }
+    ],
+    "require"    : {
+        "php"              : ">=5.5",
+        "symfony/symfony"  : "^2.8|^3.0",
+        "doppy/util-bundle": "^1.0.0"
+    },
+    "autoload"   : {
+        "psr-4": {
+            "Doppy\\PdfGeneratorBundle\\": ""
+        }
+    }
+}

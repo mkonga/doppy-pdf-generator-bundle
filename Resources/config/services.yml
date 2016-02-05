@@ -1,0 +1,51 @@
+services:
+    doppy_pdf_generator.pdf_generator:
+        class: Doppy\PdfGeneratorBundle\PdfGenerator\PdfGenerator
+        arguments:
+            - "@doppy_pdf_generator.pdf_file_generator"
+            - "@doppy_pdf_generator.pre_processor"
+
+    doppy_pdf_generator.pdf_file_generator:
+        class:    Doppy\PdfGeneratorBundle\FileGenerator\PdfFileGenerator
+        public:   false
+        arguments:
+            - "@file_locator"
+            - "@doppy_util.temp_file_generator"
+
+    doppy_pdf_generator.pre_processor:
+        class: Doppy\PdfGeneratorBundle\PreProcessor\PreProcessor
+
+    doppy_pdf_generator.pre_processor.source_file:
+        class: Doppy\PdfGeneratorBundle\PreProcessor\SourceFilePreProcessor
+        arguments:
+            - "@doppy_pdf_generator.file_locator"
+        tags:
+            - { name: doppy_pdf_generator.pre_processor, priority: 100 }
+
+    doppy_pdf_generator.file_locator:
+        class: Doppy\PdfGeneratorBundle\FileLocator\FileLocator
+
+    doppy_pdf_generator.file_locator.local_web:
+        class: Doppy\PdfGeneratorBundle\FileLocator\LocalWebLocator
+        arguments:
+            - "%kernel.root_dir%/../web/"
+            - [ "/" ]
+        tags:
+            - { name: doppy_pdf_generator.file_locator, priority: 100 }
+
+    doppy_pdf_generator.file_locator.local_web_absolute:
+        class: Doppy\PdfGeneratorBundle\FileLocator\LocalWebAbsoluteLocator
+        arguments:
+            - "@router.request_context"
+            - "%kernel.root_dir%/../web/"
+        tags:
+            - { name: doppy_pdf_generator.file_locator, priority: 100 }
+
+    doppy_pdf_generator.file_locator.internet:
+        class: Doppy\PdfGeneratorBundle\FileLocator\InternetLocator
+        arguments:
+            - "@doppy_util.temp_file_generator"
+            - "@router.request_context"
+        tags:
+            - { name: doppy_pdf_generator.file_locator, priority: 200 }
+
