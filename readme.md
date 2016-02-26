@@ -81,6 +81,26 @@ It is a good idea to make sure all your source files are stored locally when ren
 You can add your own File Locator by implementing `\Doppy\PdfGeneratorBundle\FileLocator\FileLocatorInterface`.
 Then tag the service with `doppy_pdf_generator.file_locator`.  See the `services.yml` file in this bundle for an example.
 
+### Odd Even PreProcessor
+
+Because Flying Saucer does not support the nth-child selector, you are a bit stuck with more simple selectors.
+To make it easy to create odd/even rows in tables, there is an OddEven Pre Processor, which adds classes to your elements.
+Simply configure it as follows:
+
+````
+doppy_pdf_generator:
+    preprocessor:
+        oddeven:
+            table: tr
+            thead: tr
+            tbody: tr
+            tfoot: tr
+````
+This tells the preprocessor to add the class `odd` or `even` to `tr` elements under the four specified keys.
+You can do this for any type of element. The class is only added to direct children that match the specified name.
+
+If you leave out this config, the preprocessor is not used.
+
 
 [1]: http://code.google.com/p/flying-saucer/
 [2]: https://github.com/stedekay/SpraedPDFGeneratorBundle/
