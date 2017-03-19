@@ -21,7 +21,7 @@ class PdfFileGenerator
      * @param FileLocator       $fileLocator
      * @param TempFileGenerator $tempFileGenerator
      */
-    function __construct(FileLocator $fileLocator, TempFileGenerator $tempFileGenerator)
+    public function __construct(FileLocator $fileLocator, TempFileGenerator $tempFileGenerator)
     {
         $this->fileLocator       = $fileLocator;
         $this->tempFileGenerator = $tempFileGenerator;
