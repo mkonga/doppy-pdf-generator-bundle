@@ -1,3 +1,7 @@
+# 1.1.2
+
+* Add doppy/util-bundle version 2.0 is an allowed dependency, as it is compatible.
+
 # 1.1.1
 
 * Added changes.md
