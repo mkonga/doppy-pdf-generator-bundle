@@ -2,35 +2,24 @@
 
 namespace Doppy\PdfGeneratorBundle\DependencyInjection\CompilerPass;
 
-use Doppy\UtilBundle\Helper\CompilerPass\BaseTagServiceCompilerPass;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\Compiler\PriorityTaggedServiceTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Reference;
 
-class PreProcessorCompilerPass extends BaseTagServiceCompilerPass
+class PreProcessorCompilerPass implements CompilerPassInterface
 {
-    protected function handleTag(
-        ContainerBuilder $containerBuilder,
-        Definition $serviceDefinition,
-        Reference $taggedServiceReference,
-        $attributes
-    )
-    {
-        $serviceDefinition->addMethodCall(
-            'addProcessor',
-            array(
-                $taggedServiceReference
-            )
-        );
-    }
+    use PriorityTaggedServiceTrait;
 
-    protected function getService(ContainerBuilder $containerBuilder)
+    public function process(ContainerBuilder $container)
     {
-        return $containerBuilder->getDefinition('doppy_pdf_generator.pre_processor');
-    }
+        $preProcessorDefinition = $container->getDefinition('doppy_pdf_generator.pre_processor');
+        $preProcessors          = $this->findAndSortTaggedServices('doppy_pdf_generator.pre_processor', $container);
 
-    protected function getTaggedServices(ContainerBuilder $containerBuilder)
-    {
-        return $containerBuilder->findTaggedServiceIds('doppy_pdf_generator.pre_processor');
+        foreach ($preProcessors as $preProcessor) {
+            $preProcessorDefinition->addMethodCall(
+                'addProcessor',
+                [$preProcessor]
+            );
+        }
     }
 }

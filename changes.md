@@ -1,3 +1,9 @@
+# 1.1.3
+
+* removed doppy/util-bundle dependency completely.
+* changed dependency to PHP to be more sensible.
+* added TempFileGenerator and related config to be independend from doppy/util-bundle.
+
 # 1.1.2
 
 * Add doppy/util-bundle version 2.0 is an allowed dependency, as it is compatible.

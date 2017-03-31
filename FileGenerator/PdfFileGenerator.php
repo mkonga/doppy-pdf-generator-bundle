@@ -2,7 +2,7 @@
 
 namespace Doppy\PdfGeneratorBundle\FileGenerator;
 
-use Doppy\UtilBundle\TempFileGenerator\TempFileGenerator;
+use Doppy\PdfGeneratorBundle\TempFileGenerator\TempFileGenerator;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 
 class PdfFileGenerator

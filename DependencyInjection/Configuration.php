@@ -30,6 +30,13 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->arrayNode('temp_file')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('path')->defaultFalse()->end()
+                        ->booleanNode('cleanup_on_terminate')->defaultTrue()->end()
+                    ->end()
+                ->end()
             ->end();
 
 

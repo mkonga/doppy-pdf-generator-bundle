@@ -21,12 +21,10 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-        new Doppy\UtilBundle\DoppyUtilBundle(),
         new Doppy\PdfGeneratorBundle\DoppyPdfGeneratorBundle(),
         // ...
     );
 ````
-Please note that the Doppy Util bundle is also required. You do not need to add that to your composer file.
 
 ## Usage
 
@@ -100,6 +98,29 @@ This tells the preprocessor to add the class `odd` or `even` to `tr` elements un
 You can do this for any type of element. The class is only added to direct children that match the specified name.
 
 If you leave out this config, the preprocessor is not used.
+
+## Temp file generator
+
+Some file locators need to store temporary files somewhere on disk, this can become quite a bit of files depending on what documents you are generatring and where files come from.
+To keep things a bit more clean, it is possible to automatically cleanup timefiles when they are no longer needed.
+
+You can specifify a path in the configuration where to create the tempfiles, like shown below.
+When you don't configure this, the result of sys_get_temp_dir is used.
+
+````
+doppy_pdf_generator:
+    temp_file:
+        path: /your/path/
+````
+
+Using the default configuration, generated tempfiles will be removed on the terminate event. You can disable this using the configuration below.
+You can also pass false as a second parameter to the generator to prevent that file from being cleaned up.
+ 
+````
+doppy_pdf_generator:
+    temp_file:
+        cleanup_on_terminate: false
+````
 
 
 [1]: http://code.google.com/p/flying-saucer/

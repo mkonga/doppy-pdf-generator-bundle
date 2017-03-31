@@ -10,13 +10,15 @@ services:
         public:   false
         arguments:
             - "@file_locator"
-            - "@doppy_util.temp_file_generator"
+            - "@doppy_pdf_generator.temp_file_generator"
 
     doppy_pdf_generator.pre_processor:
         class: Doppy\PdfGeneratorBundle\PreProcessor\PreProcessor
+        public: false
 
     doppy_pdf_generator.pre_processor.source_file:
         class: Doppy\PdfGeneratorBundle\PreProcessor\SourceFilePreProcessor
+        public: false
         arguments:
             - "@doppy_pdf_generator.file_locator"
         tags:
@@ -24,6 +26,7 @@ services:
 
     doppy_pdf_generator.pre_processor.oddeven:
         class: Doppy\PdfGeneratorBundle\PreProcessor\OddEvenPreProcessor
+        public: false
         arguments:
             - "%doppy_pdf_generator.preprocessor.oddeven_config%"
         tags:
@@ -34,6 +37,7 @@ services:
 
     doppy_pdf_generator.file_locator.local_web:
         class: Doppy\PdfGeneratorBundle\FileLocator\LocalWebLocator
+        public: false
         arguments:
             - "%kernel.root_dir%/../web/"
             - [ "/" ]
@@ -42,6 +46,7 @@ services:
 
     doppy_pdf_generator.file_locator.local_web_absolute:
         class: Doppy\PdfGeneratorBundle\FileLocator\LocalWebAbsoluteLocator
+        public: false
         arguments:
             - "@router.request_context"
             - "%kernel.root_dir%/../web/"
@@ -50,9 +55,16 @@ services:
 
     doppy_pdf_generator.file_locator.internet:
         class: Doppy\PdfGeneratorBundle\FileLocator\InternetLocator
+        public: false
         arguments:
-            - "@doppy_util.temp_file_generator"
+            - "@doppy_pdf_generator.temp_file_generator"
             - "@router.request_context"
         tags:
             - { name: doppy_pdf_generator.file_locator, priority: 200 }
 
+    doppy_pdf_generator.temp_file_generator:
+        class: Doppy\PdfGeneratorBundle\TempFileGenerator\TempFileGenerator
+        public: false
+        arguments:
+            - "%doppy_pdf_generator.temp_file.path%"
+            - "@?doppy_pdf_generator.temp_file_cleanup_listener"

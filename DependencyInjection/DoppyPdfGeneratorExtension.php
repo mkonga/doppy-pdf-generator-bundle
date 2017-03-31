@@ -19,14 +19,46 @@ class DoppyPdfGeneratorExtension extends Extension
         $configuration = new Configuration();
         $config        = $this->processConfiguration($configuration, $configs);
 
-        // odd even configuration
-        $oddEvenConfig = [];
-        if (isset($config['preprocessor']['oddeven'])) {
-            $oddEvenConfig = $config['preprocessor']['oddeven'];
-        }
-        $container->setParameter('doppy_pdf_generator.preprocessor.oddeven_config', $oddEvenConfig);
+        $this->loadPreProcessor($config['preprocessor'], $container);
+        $this->loadTempFile($config['temp_file'], $container);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
+    }
+
+    private function loadPreProcessor($preProcessorConfig, ContainerBuilder $container)
+    {
+        // odd even configuration
+        $oddEvenConfig = [];
+        if (isset($preProcessorConfig['oddeven'])) {
+            $oddEvenConfig = $preProcessorConfig['oddeven'];
+        }
+        $container->setParameter('doppy_pdf_generator.preprocessor.oddeven_config', $oddEvenConfig);
+    }
+
+    private function loadTempFile($tempfileConfig, ContainerBuilder $container)
+    {
+        // check config
+        if ($tempfileConfig['path'] !== false) {
+            if (!is_dir($tempfileConfig['path'])) {
+                throw new \Exception(
+                    sprintf('temp_file path ("%s") is not a directory', $tempfileConfig['path'])
+                );
+            }
+            if (!is_writeable($tempfileConfig['path'])) {
+                throw new \Exception(
+                    sprintf('temp_file path is not writable', $tempfileConfig['path'])
+                );
+            }
+        }
+
+        // add parameters
+        $container->setParameter('doppy_pdf_generator.temp_file.path', $tempfileConfig['path']);
+        $container->setParameter('doppy_pdf_generator.temp_file.cleanup_on_terminate', $tempfileConfig['cleanup_on_terminate']);
+
+        if ($tempfileConfig['cleanup_on_terminate']) {
+            $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+            $loader->load('services.temp_file.cleanup.listener.yml');
+        }
     }
 }

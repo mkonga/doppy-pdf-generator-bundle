@@ -2,7 +2,7 @@
 
 namespace Doppy\PdfGeneratorBundle\FileLocator;
 
-use Doppy\UtilBundle\TempFileGenerator\TempFileGenerator;
+use Doppy\PdfGeneratorBundle\TempFileGenerator\TempFileGenerator;
 use Symfony\Component\Routing\RequestContext;
 
 class InternetLocator implements FileLocatorInterface
