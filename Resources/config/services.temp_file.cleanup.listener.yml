@@ -1,6 +1,5 @@
 services:
     doppy_pdf_generator.temp_file_cleanup_listener:
         class: Doppy\PdfGeneratorBundle\Listener\TempFileCleanupListener
-        public: false
         tags:
             - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate }
