@@ -1,4 +1,13 @@
-# 1.1.3
+# 1.3.0
+
+* Adjust dependencies to be compatible with Symfony 4
+* Added configuration for automatic tagging in case of autowiring.
+
+# 1.2.1
+
+* Fix for lazy loaded kernel.terminate listener
+
+# 1.2.0
 
 * removed doppy/util-bundle dependency completely.
 * changed dependency to PHP to be more sensible.

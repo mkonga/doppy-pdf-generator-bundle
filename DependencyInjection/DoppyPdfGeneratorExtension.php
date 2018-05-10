@@ -2,6 +2,8 @@
 
 namespace Doppy\PdfGeneratorBundle\DependencyInjection;
 
+use Doppy\PdfGeneratorBundle\FileLocator\FileLocatorInterface;
+use Doppy\PdfGeneratorBundle\PreProcessor\PreProcessorInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -60,5 +62,9 @@ class DoppyPdfGeneratorExtension extends Extension
             $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
             $loader->load('services.temp_file.cleanup.listener.yml');
         }
+
+        // register interfaces for autowire
+        $container->registerForAutoconfiguration(FileLocatorInterface::class)->addTag('doppy_pdf_generator.file_locator');
+        $container->registerForAutoconfiguration(PreProcessorInterface::class)->addTag('doppy_pdf_generator.pre_processor');
     }
 }

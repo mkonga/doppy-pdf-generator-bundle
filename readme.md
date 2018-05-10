@@ -14,18 +14,6 @@ Add requirement to composer:
 composer require doppy/pdf-generator-bundle
 ````
 
-Add bundles to Symfony:
-````
-// app/AppKernel.php
-public function registerBundles()
-{
-    $bundles = array(
-        // ...
-        new Doppy\PdfGeneratorBundle\DoppyPdfGeneratorBundle(),
-        // ...
-    );
-````
-
 ## Usage
 
 ### Simple PDF generating
