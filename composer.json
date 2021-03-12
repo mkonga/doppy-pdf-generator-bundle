@@ -1,6 +1,7 @@
 {
     "name": "doppy/pdf-generator-bundle",
     "type": "symfony-bundle",
+    "abandoned"  : true,
     "description": "Bundle for generating Pdf files from html.",
     "keywords": [
         "pdf",
